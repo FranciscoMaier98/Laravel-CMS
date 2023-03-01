@@ -3,3 +3,52 @@ composer require jeroennoten/laravel-adminlte
 
 # Instalar a biblioteca adminlte
 php artisan adminlte:install
+
+
+# Criar controller com CRUD
+php artisan make:controller Admin/UserController --resource
+
+
+
+#### Middleware Globais ####
+São middlewares que são usadas em todas as partes do programa.
+
+    #CheckForMaintenanceMode
+    Verifica se a aplicação está em modo de manutenção. (como colocar a aplicação em modo manutenção?)
+
+    #ValidatePostSize
+    Valida o tamanho do POST enviado, valida se a requisição não ultrapassa a tamanho máximo que 
+    as configurações do servidor permite, evita erros.
+
+    #TrimStrings
+    Retira os espaços (Utiliza a função trim())
+
+    #ConvertEmptyStringsToNull
+    Apenas converte valores vazios ” para NULL
+
+#### Middleware Groups - Web ####
+Esses middlewares acontecem durante a navegação no site, isto é, na parte web. Não estão vinculados a rotas.
+
+
+    #AuthenticateSession: https://kfirba.me/blog/the-undocumented-authenticatesession-middleware-decoded
+    Faz o processo de verificação de senha caso ela tenha sido alterada enquanto você está logado.
+    Caso a senha alterada estiver diferente da senha que você salvou e estiver sido salva no cookie de remember me
+    o usuário é deslogado.
+    Em teoria isso deve ajudar em ataques hackers. No entanto a pessoa precisa ter salva a senha para que saia no momento
+    que você alterá-la.
+
+    #EncryptCookies:
+    Realiza a encriptação dos cookies.
+    É interessante fazer a realização dessa técnica devido a ataques hackers que usufruem dos cookies.
+
+
+
+##### VALIDAÇÃO USUÁRIO ATUALIZAÇÃO #####
+    Ao atualizar um usuário, as senhas não são requisitos necessários.
+    Por esse motivo não é possível adicionar dentro do validator, pois se não seriam
+    obrigatórias. Para contornar isso, a verificação é feita manualmente.
+    Para a exibição dos erros referentes à senha, foram utilizados textos
+    padrões encontrador em resources\lang\en\validation.php
+
+    Para chamar esse texto é usada uma função do php __(). Aparentemente é 
+    uma função máxica utilizada justamente para buscar informações no validate.
